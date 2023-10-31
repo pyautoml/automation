@@ -1,0 +1,9 @@
+.PHONY: remove rmlogs
+
+remove:
+	rm -rf ./__pycache__
+	rm -rf ./mailbox/__pycache__
+	rm -rf ./mailbox/test/__pycache__
+
+rmlogs:
+	rm -rf ./mailbox/logs

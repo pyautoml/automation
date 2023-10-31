@@ -1,0 +1,8 @@
+{
+    "your_user": {
+        "email_address": "example@example.com",
+        "email_password": "password",
+        "imap_port": 993
+    }
+    
+}
