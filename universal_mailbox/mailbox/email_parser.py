@@ -4,7 +4,6 @@ __created__ = "01.11.2023"
 __last_update__ = "02.11.2023"
 __author__ = "https://github.com/pyautoml"
 
-
 import gc
 import sys
 import email
