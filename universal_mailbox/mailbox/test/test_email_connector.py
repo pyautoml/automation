@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 
 __created__ = "01.11.2023"
-__last_update__ = "02.11.2023"
+__last_update__ = "01.11.2023"
 __author__ = "https://github.com/pyautoml"
 __how_to__ = ["python -m unittest test.test_email_connector"]
-
 
 import os
 import gc
