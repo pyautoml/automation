@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 
 __created__ = "30.10.2023"
-__last_udate__ = "02.11.2023"
+__last_udate__ = "01.11.2023"
 __author__ = "https://github.com/pyautoml"
 __how_to__ = ["python -m unittest test.test_utils"]
-
 
 import gc
 import os
