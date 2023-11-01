@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 
 __created__ = "31.10.2023"
-__last_uodate__ = "31.10.2023"
+__last_update__ = "31.10.2023"
 __author__ = "https://github.com/pyautoml"
-
 
 import os 
 import gc 
