@@ -1,11 +1,10 @@
 #!/usr/bin/python3.11
 # -*- coding: utf-8 -*-
 
-__created__ = "31.10.2023"
-__last_uodate__ = "31.10.2023"
+__created__ = "30.10.2023"
+__last_update__ = "02.11.2023"
 __author__ = "https://github.com/pyautoml"
 __how_to__ = ["python -m unittest test.test_utils"]
-
 
 import gc
 import os
@@ -18,7 +17,6 @@ from utils import (
     run_makefile,
     absolute_path,
 )
-
 
 class TestUtils(unittest.TestCase):
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -42,7 +40,6 @@ class TestUtils(unittest.TestCase):
                 os.remove(self.example_file)
             except:
                 pass
-
 
 if __name__ == "__main__":
     unittest.main()
