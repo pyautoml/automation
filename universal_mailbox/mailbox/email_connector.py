@@ -1,8 +1,9 @@
 #!/usr/bin/python3.11
 
-__created__ = "30.10.2023"
-__last_update__ = "01.11.2023"
+__created__ = "01.11.2023"
+__last_update__ = "02.11.2023"
 __author__ = "https://github.com/pyautoml"
+
 
 import gc
 import os
