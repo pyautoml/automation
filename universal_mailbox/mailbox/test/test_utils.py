@@ -18,6 +18,7 @@ from utils import (
     absolute_path,
 )
 
+
 class TestUtils(unittest.TestCase):
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
     atexit.register(run_makefile, "remove", path)
