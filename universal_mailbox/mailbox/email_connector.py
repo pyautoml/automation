@@ -1,9 +1,8 @@
 #!/usr/bin/python3.11
 
 __created__ = "30.10.2023"
-__last_uodate__ = "30.10.2023"
+__last_update__ = "01.11.2023"
 __author__ = "https://github.com/pyautoml"
-
 
 import gc
 import os
@@ -13,42 +12,19 @@ import imaplib
 # from logger import logger
 from typing import Any, List
 from utils import absolute_path, load_json_data
-1~#!/usr/bin/python3.11
 
-__created__ = "30.10.2023"
-__last_uodate__ = "30.10.2023"
-__author__ = "https://github.com/pyautoml"
-
-
-import gc
-import os
-import sys
-import json
-import imaplib
-# from logger import logger
-from typing import Any, List
-from utils import absolute_path, load_json_data
-1~#!/usr/bin/python3.11
-
-__created__ = "30.10.2023"
-__last_uodate__ = "30.10.2023"
-__author__ = "https://github.com/pyautoml"
-
-
-import gc
-import os
-import sys
-import json
-import imaplib
-# from logger import logger
-from typing import Any, List
-from utils import absolute_path, load_json_data
 
 class EmailConnector:
     _instance: Any = None
 
-    def __init__(self, mailbox: str, email_provider: str, console_messages: bool = False, settings_file_abs_path: str = None) -> None:
-        self._mailbox = mailbox
+    def __init__(
+        self,
+        mailbox: str,
+        email_provider: str,
+        console_messages: bool = False,
+        settings_file_abs_path: str = None,
+    ) -> None:
+        self._instancebox = mailbox
         self._set_email_provider(email_provider)
         self._console_messages = console_messages
 
@@ -75,17 +51,13 @@ class EmailConnector:
             sys.exit(1)
 
     def __str__(self) -> str:
-        return self._mailbox
+        return self._instancebox
 
     @classmethod
     def _forbidden_access(cls) -> List[str]:
-        """Data that should remain inaccessible to users."""
+        """Data that should not be accessible to users."""
 
-        return [
-            "_load_settings",
-            "_forbidden_access",
-            "_settings_file_abs_path"
-        ]
+        return ["_load_settings", "_forbidden_access", "_settings_file_abs_path"]
 
     @classmethod
     def __setattr__(cls, attribute: str, value: Any) -> None:
@@ -98,8 +70,8 @@ class EmailConnector:
         value (str): attribute's value
         """
 
-        if attribute == "_mailbox":
-            cls._mailbox = value
+        if attribute == "_instancebox":
+            cls._instancebox = value
         elif attribute == "_instance":
             cls._instance = "_instance"
         elif attribute == "_connection":
@@ -133,13 +105,15 @@ class EmailConnector:
         try:
             settings_path = self._settings_file_abs_path
         except:
-            settings_path =  absolute_path(os.path.join("..", "configuration/imap_servers.json"))
+            settings_path = absolute_path(
+                os.path.join("..", "configuration/imap_servers.json")
+            )
         try:
-            with open(settings_path,"r") as json_file:
+            with open(settings_path, "r") as json_file:
                 providers = json.load(json_file)
         except Exception as e:
             print(e)
-            #logger.exception("Settings directory does not exist: {e}")
+            # logger.exception("Settings directory does not exist: {e}")
             sys.exit(1)
 
         email_provider = email_provider.lower()
@@ -147,9 +121,8 @@ class EmailConnector:
             self._email_provider = providers[email_provider]
         else:
             print(e)
-            #logger.exception(f"No suich provider registered. PRegistered providers: {providers.keys()}")
+            # logger.exception(f"No suich provider registered. PRegistered providers: {providers.keys()}")
             sys.exit(1)
-
 
     def _load_settings(self, settings: str = None) -> dict:
         try:
@@ -158,7 +131,7 @@ class EmailConnector:
                     absolute_path(os.path.join("..", "configuration/settings.json")),
                     "r",
                 ) as json_file:
-                    settings = json.load(json_file)[self._mailbox]
+                    settings = json.load(json_file)[self._instancebox]
                     settings["imap_server"] = self._email_provider
                 expected_keys = [
                     "email_address",
@@ -224,4 +197,4 @@ class EmailConnector:
                 sys.exit(1)
         finally:
             if self._console_messages:
-                print(f"Disconnected from: {self._mailbox}")
+                print(f"Disconnected from: {self._instancebox}")
