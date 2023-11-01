@@ -1,6 +1,6 @@
 # Universal Private Email Connector
 
-## A library that automates connections to popular email services such as Gmail, Outlook, AOL, Appe, Yahoo.
+## A library that automates connections to popular email services such as Gmail, Outlook, AOL, Apple, Yahoo.
 The library is used to support private accounts that have not been migrated to cloud services.
 If you require additional library functions, please submit a request.
 
