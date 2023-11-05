@@ -38,6 +38,7 @@ def required_parameter(validation_type: Type) -> None:
             return original_method(folder_name, *args, **kwargs)
         return wrapper
     return decorator
+    
 @required_parameter("")
 def load_json_data(file_path: str) -> json:
     """
@@ -60,6 +61,7 @@ def load_json_data(file_path: str) -> json:
         #logger.exception(f"e")
         return None
     return data
+    
 def absolute_path(path: str = None) -> [str|None]:
     """
     Convert path to an absolute path. This can be useful if you are working on server.
@@ -85,11 +87,13 @@ def absolute_path(path: str = None) -> [str|None]:
                 os.path.dirname(__file__), path
             )
         )
+        
 def free_up_memory() -> None:
     """ Remove global values. """
     for name in dir():
         del globals()[name]
     gc.collect()
+    
 def run_makefile(command: str, project_path: str) -> None:
     try:
         subprocess.run(["make", command], check=True, cwd=project_path)
