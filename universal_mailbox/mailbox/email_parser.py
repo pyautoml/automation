@@ -10,7 +10,6 @@ import os
 import sys
 import email
 import emoji
-from typing import Final, Generator
 from copy import deepcopy
 # from logger import logger
 from typing import Any, List
@@ -19,6 +18,7 @@ from bs4 import BeautifulSoup
 from functools import lru_cache
 from utils import absolute_path
 from email.parser import Parser
+from typing import Final, Generator
 from email.header import decode_header
 from dataclasses import dataclass, field
 from email_connector import EmailConnector
