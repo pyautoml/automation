@@ -1,9 +1,8 @@
 #!/usr/bin/python3.11
 
 __created__ = "01.11.2023"
-__last_update__ = "02.11.2023"
+__last_update__ = "05.11.2023"
 __author__ = "https://github.com/pyautoml"
-
 
 import gc
 import os
@@ -153,6 +152,26 @@ class EmailConnector:
             # logger.exception(f"{e}")
             sys.exit(1)
 
+    def _select(self, mailbox: str = "Inbox") -> None:
+        """Select a mailbox."""
+        try:
+            self._connection.select(mailbox=mailbox)
+        except Exception as e:
+            # logger.exception(f"{e}")
+            return None
+
+    def _search(self, search_filter: str = "ALL") -> None:
+        """Search with set up filter."""
+        status, data = self._connection.search(None, search_filter)
+        if status == "OK":
+            return data
+        else:
+            # logger.exception(f"{status}")
+            return None
+
+    def _fetch(self, message_id: str) -> str:
+        return self._connection.fetch(message_id, "(RFC822)")
+
     def _connect(self, settings: str = None) -> None:
         """Connect to the specified email account."""
 
@@ -160,11 +179,15 @@ class EmailConnector:
             try:
                 settings = self._load_settings()
             except Exception as e:
-                print(e)
+                print("1 ====> ", e)
                 # logger.exception(f"{e}")
                 sys.exit(1)
         else:
-            settings = self._load_settings(settings)
+            try:
+                settings = self._load_settings(settings)
+            except Exception as e:
+                print("2 ====> ", e)
+                sys.exit(1)
 
         try:
             self._connection = imaplib.IMAP4_SSL(
@@ -179,7 +202,7 @@ class EmailConnector:
             if self._console_messages:
                 print(f"Connected to: {str(self)}", flush=True)
         except KeyError as e:
-            print(e)
+            print("3 ===> ", e)
             # logger.exception(f"{e}")
             sys.exit(1)
 
@@ -199,3 +222,4 @@ class EmailConnector:
         finally:
             if self._console_messages:
                 print(f"Disconnected from: {self._instancebox}")
+                
