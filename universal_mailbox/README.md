@@ -68,9 +68,11 @@ Info: console_messages = True allows messages to be displayed in cmd. The defaul
 Examples:
     self.connector = EmailConnector("your_user", email_provider="your_email_provider")
 
-## TODO
-This library is under development. The following steps will be supported:
+## Done ✅
 1) reading and parsing attachments
 2) extraction, cleaning and reading of preferred fields from the email (addressee, sender, subject, body, etc.).
-3) handling the filtering of results
-4) log handling
+
+## TODO 🔄
+This library is under development. The following steps will be supported:
+1) handling the filtering of results
+2) log handling
