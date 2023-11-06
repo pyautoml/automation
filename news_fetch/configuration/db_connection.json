@@ -1,0 +1,48 @@
+{
+    "database": {
+        "dev":{
+            "db_name": "your_db_name",
+            "tables": 
+            {
+                "logs": "dev_table_name",
+                "feed_topic": "dev_table_name",
+                "newsletter": "dev_table_name",
+                "lastp_rocess_run": "dev_table_name",
+                "registered_newsletter": "dev_table_name"
+            }             
+        },
+        "test": {
+            "db_name": "your_db_name",
+            "tables": 
+            {
+                "logs": "test_table_name",
+                "feed_topic": "test_table_name",
+                "newsletter": "test_table_name",
+                "lastp_rocess_run": "test_table_name",
+                "registered_newsletter": "test_table_name"
+            }             
+        },
+        "prod": {
+            "db_name": "prod_db_name",
+            "tables": 
+            {
+                "logs": "prod_table_name",
+                "feed_topic": "prod_table_name",
+                "newsletter": "prod_table_name",
+                "lastp_rocess_run": "prod_table_name",
+                "registered_newsletter": "prod_table_name"
+            }             
+        },
+    },
+    "ssh": {
+        "ssh_host": "your_host",
+        "ssh_port": 22,
+        "ssh_user": "your_user",
+        "private_key_path": "path_to_private_key",
+        "remote_db_host": "127.0.0.1",
+        "remote_port": 3306,
+        "remote_db_user": "db_user",
+        "remote_user_password": "db_user_password",
+        "remote_db_password": "db_remote_password"
+    }
+}
