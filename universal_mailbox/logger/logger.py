@@ -1,3 +1,10 @@
+#!/usr/bin/python3.11
+
+__created__ = "27.01.2024"
+__last_update__ = "27.01.2024"
+__author__ = "https://github.com/pyautoml"
+
+
 import os
 import logging
 import threading
