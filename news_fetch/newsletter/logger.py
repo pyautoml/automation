@@ -79,3 +79,5 @@ class CustomLogger:
 
     def __reduce__(self):
         return (self.__class__, (self.log_level,))
+
+logger = CustomLogger(log_level=LogLevel.INFO)
