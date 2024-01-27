@@ -8,11 +8,11 @@ __author__ = "https://github.com/pyautoml"
 import sys
 import argparse
 from typing import Any
+from logger import logger
 from dataclasses import dataclass
 from sqlalchemy.orm import Session
 from abc import ABC, abstractmethod
 from sshtunnel import SSHTunnelForwarder
-from logger import CustomLogger, Loglevel
 from sqlalchemy import create_engine, text
 from utils import get_configuration_path, load_json_data, cmd_arguments
 
@@ -43,10 +43,8 @@ class AbstractConnector(ABC):
 class MsSQLConnector(AbstractConnector):
     args: argparse
     settings_path: str
-    logger: Any = None
-
+    
     def __post_init__(self) -> None:
-        self.logger = CustomLogger(log_level=LogLevel.INFO)
         self._configuration = self.settings_path
         self._ssh_host = self._configuration["ssh"]["ssh_host"]
         self._ssh_port = self._configuration["ssh"]["ssh_port"]
@@ -84,7 +82,7 @@ class MsSQLConnector(AbstractConnector):
                 f"{self._remote_db_host}:{self._tunnel.local_bind_port}/{selected_database}"
             )
         except Exception as e:
-            self.logger.critical(f"{e}")
+            logger.critical(f"{e}")
             sys.exit(1)
 
     def _disconnect(self) -> None:
@@ -100,10 +98,10 @@ class MsSQLConnector(AbstractConnector):
                     result = connection.execute(text(query))
                     return result
             except Exception as e:
-                self.logger.critical(f"{e}")
+                logger.critical(f"{e}")
                 sys.exit(1)
         else:
-            self.logger.critical(f"Database connection is not established: {e}")
+            logger.critical(f"Database connection is not established: {e}")
             sys.exit(1)
 
     def _insert(self, session: Session, model_class, data) -> None:
@@ -117,7 +115,7 @@ class MsSQLConnector(AbstractConnector):
                 self.logger.critical(f"Inser error: {e}")
                 sys.exit(1)
         else:
-            self.logger.critical(f"Database session is not established: {e}")
+            logger.critical(f"Database session is not established: {e}")
             sys.exit(1)
 
     def _update(self, session, model_class, data, condition) -> None:
@@ -132,10 +130,10 @@ class MsSQLConnector(AbstractConnector):
                     print("No records match the condition.")
             except Exception as e:
                 session.rollback()
-                self.logger.critical(f"Update error: {e}")
+                logger.critical(f"Update error: {e}")
                 sys.exit(1)
         else:
-            logger.critical(f"Database session is not established: {e}")
+            critical(f"Database session is not established: {e}")
             sys.exit(1)
 
     def _bulk_insert(self, session, model_class, data_list) -> None:
@@ -146,10 +144,10 @@ class MsSQLConnector(AbstractConnector):
                 session.commit()
             except Exception as e:
                 session.rollback()
-                self.logger.critical(f"Bulk Insert error: {e}")
+                logger.critical(f"Bulk Insert error: {e}")
                 sys.exit(1)
         else:
-            self.logger.critical(f"Database session is not established: {e}")
+            logger.critical(f"Database session is not established: {e}")
             sys.exit(1)
 
     def _bulk_update(self, session, model_class, data_list, condition) -> None:
@@ -169,7 +167,7 @@ class MsSQLConnector(AbstractConnector):
                 logger.critical(f"Bulk Update error: {e}")
                 sys.exit(1)
         else:
-            self.logger.critical(f"Database session is not established: {e}")
+            logger.critical(f"Database session is not established: {e}")
             sys.exit(1)
 
 
