@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 __created__ = "30.10.2023"
-__last_udate__ = "01.11.2023"
+__last_udate__ = "27.01.2024"
 __author__ = "https://github.com/pyautoml"
 
 
@@ -14,7 +14,7 @@ import inspect
 import subprocess
 from functools import wraps
 from typing import Type, Any
-#from logger import logger
+from logger import logger
 
 
 def required_parameter(validation_type: Type) -> None:
@@ -29,11 +29,11 @@ def required_parameter(validation_type: Type) -> None:
         @wraps(original_method)
         def wrapper(folder_name, *args, **kwargs):
             if folder_name.strip() == "":
-                #logger.critical("Folder name cannot be empty.")
+                logger.critical("Folder name cannot be empty.")
                 sys.exit(1)
             
             if not isinstance(folder_name, type(validation_type)):
-                #logger.critical(f"Invalid type for {folder_name}. Expected {type(validation_type)}, got {type(folder_name)}.")
+                logger.critical(f"Invalid type for {folder_name}. Expected {type(validation_type)}, got {type(folder_name)}.")
                 sys.exit(1)
             return original_method(folder_name, *args, **kwargs)
         return wrapper
@@ -50,7 +50,7 @@ def load_json_data(file_path: str) -> json:
     if not os.path.exists(file_path):
         new_path = absolute_path(file_path)
         if not os.path.exists(file_path):
-            #logger.error(f"Path {path} does not exist.")
+            logger.error(f"Path {path} does not exist.")
             return None
         else:
             return new_path
@@ -58,7 +58,7 @@ def load_json_data(file_path: str) -> json:
         with open(file_path, 'r') as settings:
             data = json.load(settings)
     except Exception as e:
-        #logger.exception(f"e")
+        logger.exception(f"e")
         return None
     return data
     
@@ -77,10 +77,10 @@ def absolute_path(path: str = None) -> [str|None]:
         )
     else:
         if not isinstance(path, str):
-            #logger.exception(f"Path must be str type, not {type(path)}.")
+            logger.exception(f"Path must be str type, not {type(path)}.")
             return None
         if not path:
-            #logger.exception("Path cannot be empty.")
+            logger.exception("Path cannot be empty.")
             return None
         return os.path.abspath(
             os.path.join(
@@ -98,5 +98,5 @@ def run_makefile(command: str, project_path: str) -> None:
     try:
         subprocess.run(["make", command], check=True, cwd=project_path)
     except subprocess.CalledProcessError as e:
-        #logger.error(f"Error while running Makefile command: '{command}': {e}")
+        logger.error(f"Error while running Makefile command: '{command}': {e}")
         sys.exit(1)
