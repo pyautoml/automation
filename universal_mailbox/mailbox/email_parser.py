@@ -11,7 +11,7 @@ import sys
 import email
 import emoji
 from copy import deepcopy
-# from logger import logger
+from logger import logger
 from typing import Any, List
 from datetime import datetime
 from bs4 import BeautifulSoup
@@ -249,8 +249,8 @@ class EmailParser:
             with open(f"{local_path}/{email_timestamp}_{file_name}", "wb") as file:
                 file.write(attachment)
         except Exception as e:
-            # logger
-            print(f"Cannot save attachment: {e}")
+            logger.critical(f"Cannot save attachment: {e}")
+            sys.exit(1)
 
     def _find_attachments(
         self,
@@ -279,10 +279,10 @@ class EmailParser:
                             )
                         attachments.append(attachment_data)
                     elif file_extension in self._blocked_file_extensions:
-                        # logger.critical("Potentially malicious file blocked!: {file_name}")
+                        logger.critical("Potentially malicious file blocked!: {file_name}")
                         return None
                     else:
-                        # logger.critical("Unsupported file extension: {file_name}")
+                        logger.critical("Unsupported file extension: {file_name}")
                         return None
         if return_attachments:
             return attachments
