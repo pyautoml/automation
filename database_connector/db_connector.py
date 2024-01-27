@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from sqlalchemy.orm import Session
 from abc import ABC, abstractmethod
 from sshtunnel import SSHTunnelForwarder
+from logger import CustomLogger, Loglevel
 from sqlalchemy import create_engine, text
 from utils import get_configuration_path, load_json_data, cmd_arguments
 # from logger import logger
@@ -43,9 +44,10 @@ class AbstractConnector(ABC):
 class MsSQLConnector(AbstractConnector):
     args: argparse
     settings_path: str
+    logger: Any = None
 
     def __post_init__(self) -> None:
-        print("args: ", self.args)
+        self.logger = CustomLogger(log_level=LogLevel.INFO)
         self._configuration = self.settings_path
         self._ssh_host = self._configuration["ssh"]["ssh_host"]
         self._ssh_port = self._configuration["ssh"]["ssh_port"]
@@ -83,8 +85,7 @@ class MsSQLConnector(AbstractConnector):
                 f"{self._remote_db_host}:{self._tunnel.local_bind_port}/{selected_database}"
             )
         except Exception as e:
-            print("Connection error: ", e)
-            # logger.critical(f"{e})
+            self.logger.critical(f"{e}")
             sys.exit(1)
 
     def _disconnect(self) -> None:
@@ -100,12 +101,10 @@ class MsSQLConnector(AbstractConnector):
                     result = connection.execute(text(query))
                     return result
             except Exception as e:
-                print("Query execution error: ", e)
-                # logger.critical(f"{e})
+                self.logger.critical(f"{e}")
                 sys.exit(1)
         else:
-            print("Database connection is not established.")
-            # logger.critical(f"{e})
+            self.logger.critical(f"Database connection is not established: {e}")
             sys.exit(1)
 
     def _insert(self, session: Session, model_class, data) -> None:
@@ -115,13 +114,11 @@ class MsSQLConnector(AbstractConnector):
                 session.add(record)
                 session.commit()
             except Exception as e:
-                print("Insert error: ", e)
                 session.rollback()
-                # logger.critical(f"{e})
+                self.logger.critical(f"Inser error: {e}")
                 sys.exit(1)
         else:
-            print("Database session is not established.")
-            # logger.critical(f"{e})
+            self.logger.critical(f"Database session is not established: {e}")
             sys.exit(1)
 
     def _update(self, session, model_class, data, condition) -> None:
@@ -135,13 +132,11 @@ class MsSQLConnector(AbstractConnector):
                 else:
                     print("No records match the condition.")
             except Exception as e:
-                print("Update error: ", e)
                 session.rollback()
-                # logger.critical(f"{e})
+                self.logger.critical(f"Update error: {e}")
                 sys.exit(1)
         else:
-            print("Database session is not established.")
-            # logger.critical(f"{e})
+            logger.critical(f"Database session is not established: {e}")
             sys.exit(1)
 
     def _bulk_insert(self, session, model_class, data_list) -> None:
@@ -151,13 +146,11 @@ class MsSQLConnector(AbstractConnector):
                 session.add_all(records)
                 session.commit()
             except Exception as e:
-                print("Bulk Insert error: ", e)
                 session.rollback()
-                # logger.critical(f"{e})
+                self.logger.critical(f"Bulk Insert error: {e}")
                 sys.exit(1)
         else:
-            print("Database session is not established.")
-            # logger.critical(f"{e})
+            self.logger.critical(f"Database session is not established: {e}")
             sys.exit(1)
 
     def _bulk_update(self, session, model_class, data_list, condition) -> None:
@@ -173,13 +166,11 @@ class MsSQLConnector(AbstractConnector):
                 else:
                     print("No records match the condition.")
             except Exception as e:
-                print("Bulk Update error: ", e)
                 session.rollback()
-                # logger.critical(f"{e})
+                logger.critical(f"Bulk Update error: {e}")
                 sys.exit(1)
         else:
-            print("Database session is not established.")
-            # logger.critical(f"{e})
+            self.logger.critical(f"Database session is not established: {e}")
             sys.exit(1)
 
 
