@@ -15,7 +15,6 @@ from sshtunnel import SSHTunnelForwarder
 from logger import CustomLogger, Loglevel
 from sqlalchemy import create_engine, text
 from utils import get_configuration_path, load_json_data, cmd_arguments
-# from logger import logger
 
 
 class AbstractConnector(ABC):
