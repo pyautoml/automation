@@ -8,12 +8,7 @@ __author__ = "https://github.com/pyautoml"
 import os
 import json
 import argparse
-from logger import CustomLogger, Loglevel
-
-try:
-    logger = CustomLogger(log_level=LogLevel.INFO)
-except Exception as e:
-    raise NotImplementedError(f"{e}")
+from logger import logger
 
 
 def absolute_path(path: str = None) -> [str | None]:
