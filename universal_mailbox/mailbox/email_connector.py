@@ -9,7 +9,7 @@ import os
 import sys
 import json
 import imaplib
-# from logger import logger
+from logger import logger
 from typing import Any, List
 from utils import absolute_path, load_json_data
 
@@ -47,7 +47,7 @@ class EmailConnector:
                 cls._instance = super(cls.__class__, cls).__new__(cls)
             return cls._instance
         except Exception as e:
-            # logger.exception(f"{e}")
+            logger.exception(f"{e}")
             sys.exit(1)
 
     def __str__(self) -> str:
@@ -120,8 +120,7 @@ class EmailConnector:
         if email_provider in providers.keys():
             self._email_provider = providers[email_provider]
         else:
-            print(e)
-            # logger.exception(f"No suich provider registered. PRegistered providers: {providers.keys()}")
+            logger.exception(f"No suich provider registered. Registered providers: {providers.keys()}")
             sys.exit(1)
 
     def _load_settings(self, settings: str = None) -> dict:
@@ -148,8 +147,7 @@ class EmailConnector:
             else:
                 return load_json_data(settings)
         except Exception as e:
-            print(e)
-            # logger.exception(f"{e}")
+            logger.exception(f"{e}")
             sys.exit(1)
 
     def _select(self, mailbox: str = "Inbox") -> None:
@@ -157,7 +155,7 @@ class EmailConnector:
         try:
             self._connection.select(mailbox=mailbox)
         except Exception as e:
-            # logger.exception(f"{e}")
+            logger.exception(f"{e}")
             return None
 
     def _search(self, search_filter: str = "ALL") -> None:
@@ -166,7 +164,7 @@ class EmailConnector:
         if status == "OK":
             return data
         else:
-            # logger.exception(f"{status}")
+            logger.exception(f"{status}")
             return None
 
     def _fetch(self, message_id: str) -> str:
@@ -179,14 +177,13 @@ class EmailConnector:
             try:
                 settings = self._load_settings()
             except Exception as e:
-                print("1 ====> ", e)
-                # logger.exception(f"{e}")
+                logger.exception(f"{e}")
                 sys.exit(1)
         else:
             try:
                 settings = self._load_settings(settings)
             except Exception as e:
-                print("2 ====> ", e)
+                logger.critical(f"{e}")
                 sys.exit(1)
 
         try:
@@ -202,8 +199,7 @@ class EmailConnector:
             if self._console_messages:
                 print(f"Connected to: {str(self)}", flush=True)
         except KeyError as e:
-            print("3 ===> ", e)
-            # logger.exception(f"{e}")
+            logger.exception(f"{e}")
             sys.exit(1)
 
     def _disconnect(self):
@@ -211,13 +207,11 @@ class EmailConnector:
         try:
             self._connection.logout()
         except Exception as e:
-            print(e)
-            # logger.exception(f"Error when trying to log off: {e}")
+            logger.exception(f"Error when trying to log off: {e}")
             try:
                 self._connection.close()
             except Exception as e:
-                # logger.exception(f"Error when trying to log off: {e}")
-                print(e)
+                logger.exception(f"Error when trying to log off: {e}")
                 sys.exit(1)
         finally:
             if self._console_messages:
