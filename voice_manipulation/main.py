@@ -12,7 +12,7 @@ def universal_path(file: str) -> str:
     return os.path.abspath(os.path.join(os.path.dirname(__file__), file))
 
 
-def convert_avi_to_mp3(input_path, output_path):
+def convert_video_to_mp3(input_path, output_path):
     try:
         video_clip = VideoFileClip(input_path)
         audio_clip = video_clip.audio
