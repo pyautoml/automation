@@ -29,12 +29,12 @@ def modify_volume(
     parts_from_to,
     volume_changes_from_to,
     frequency_changes_from_to=None,
-    new_file_name: str = "modified_audio.mp3",
+    new_file_name: str = "./audio/modified_audio.mp3",
 ):
     try:
         y, sr = librosa.load(audio_file, sr=None)
     except Exception as e:
-        print(f"[Error] Missing audio file: {e}")
+        print(f"[ERROR] Missing audio file: {e}")
         sys.exit(1)
 
     modified_audio = np.copy(y)
@@ -60,17 +60,17 @@ def modify_volume(
 
 
 def main():
-    audio_file = universal_path("audio.mp3")
-    parts_from_to = [[1, 5], [6, 12], [13, 20], [22, 30], [32, 40]] 
+    audio_file = universal_path("./audio/audio.mp3")
+    parts_from_to = [[1, 5], [6, 12], [13, 20], [22, 30], [32, 40]]
     volume_changes_from_to = [0, 0, 0, 20, -5]
     frequency_changes_from_to = [0, 800, -400, 0, 1000]
 
     modify_volume(
-        audio_file, parts_from_to, volume_changes_from_to, frequency_changes_from_to, "modified_audio.mp3"
+        audio_file, parts_from_to, volume_changes_from_to, frequency_changes_from_to, "./audio/modified_audio.mp3"
     )
-    save_audio_spectrum_plot(audio_file, "audio_mel_spectrogram.png")
+    save_audio_spectrum_plot(audio_file, "./spectrogram/audio_mel_spectrogram.png")
     save_audio_spectrum_plot(
-        universal_path("modified_audio.mp3"), "audio_modified_mel_spectrogram.png"
+        universal_path("./audio/modified_audio.mp3"), "./spectrogram/audio_modified_mel_spectrogram.png"
     )
 
 
