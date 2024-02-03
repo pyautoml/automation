@@ -4,11 +4,23 @@ import librosa
 import numpy as np
 import soundfile as sf
 import matplotlib.pyplot as plt
+from moviepy.editor import VideoFileClip
 from scipy.signal import butter, lfilter
 
 
 def universal_path(file: str) -> str:
     return os.path.abspath(os.path.join(os.path.dirname(__file__), file))
+
+
+def convert_avi_to_mp3(input_path, output_path):
+    try:
+        video_clip = VideoFileClip(input_path)
+        audio_clip = video_clip.audio
+        audio_clip.write_audiofile(output_path, codec='mp3')
+        print(f"Conversion successful. MP3 file saved at {output_path}")
+
+    except Exception as e:
+        print(f"Cannot convert the video: {e}")
 
 
 def save_audio_spectrum_plot(mp3_file_path, output_image_path):
@@ -94,6 +106,10 @@ def modify_volume(
 
 
 def main():
+
+    # convert a video to mp3 if needed
+    # convert_video_to_mp3(input_path, output_path)
+    
     audio_file = universal_path("./audio/audio.mp3")
 
     parts_from_to = [[1, 5], [6.7, 12], [13, 20], [22, 30], [32, 40]]
