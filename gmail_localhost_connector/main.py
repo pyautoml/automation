@@ -209,9 +209,8 @@ def main():
     )
     gmail.connect()
     messages = gmail.retrieve_emails()
-    security = GmailContentSecurity()
     headers = gmail.get_message(message_id=messages[0]["id"], only_headers=True)
-    security.handle_arc_seal(headers)
+    # security = GmailContentSecurity()
 
 
 if __name__ == "__main__":
